@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="WcfPager.View.Ru.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mvc="clr-namespace:System.Windows.Mvc;assembly=System.Windows.Mvc"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800"
+             x:Name="Root"
+             >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="178*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="51*" />
+            <RowDefinition Height="328*" />
+        </Grid.RowDefinitions>
+        <Menu HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" DataContext="{Binding}" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="1">
+            <MenuItem Header="Английский"         Command="{Binding SelectCulture}" CommandParameter="en" IsChecked="False" />
+            <MenuItem Header="Русский"         Command="{Binding SelectCulture}" CommandParameter="ru" IsChecked="True" />
+        </Menu>
+        <ComboBox HorizontalAlignment="Stretch" Name="AddressBook" VerticalAlignment="Top" ItemsSource="{Binding AddressBook}" SelectedItem="{Binding To}" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="1">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="{Binding Uri}" Foreground="Green"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBox HorizontalAlignment="Stretch" Margin="4,5,0,0" Name="Message" VerticalAlignment="Stretch" Text="{Binding Message}" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" />
+        <Button Content="Послать" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Stretch" Command="{Binding Send}" CommandParameter="{Binding}" Grid.Row="4" Grid.Column="2" />
+        <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding History}" SelectionMode="Single" Grid.Row="1"  Grid.Column="1" Grid.ColumnSpan="2">
+            
+            <ListView.Resources>
+                <DataTemplate DataType="{x:Type mvc:ViewModel}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="..." Command="{Binding  Path=DataContext.ViewMessage, RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding ContentAsText}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.Resources>
+            
+            <ListView.View>
+                <GridView Selector.IsSelected="False" AllowsColumnReorder="False">
+                    <GridViewColumn Width="140" Header="От"        DisplayMemberBinding="{Binding .From.Name}"  />
+                    <GridViewColumn Width="140" Header="Кому"          DisplayMemberBinding="{Binding .To.Name}" />
+                    <GridViewColumn Width="100" Header="Дата время" DisplayMemberBinding="{Binding CreatedTime}" />
+                    <GridViewColumn  Header="Сообщение" Width="auto" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="..." Command="{Binding  Path=DataContext.ViewMessage, RelativeSource={RelativeSource Mode=FindAncestor,  AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
+                                    <TextBlock Text=" "/>
+                                    <TextBlock Text="{Binding ContentAsText}"/>
+                                </StackPanel>
+                            </DataTemplate>
+
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TreeView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="5" ItemsSource="{Binding Groups}" mvc:TreeViewBehavior.SelectItem ="{Binding SelectAddress}">
+            <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Addresses}">
+                        <TextBlock  Text ="{Binding Name}"  />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+        </TreeView>
+
+
+        <Button Content="Микрофон" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Stretch" Margin="0,5,0,0" VerticalAlignment="Stretch" />
+    </Grid>
+</UserControl>

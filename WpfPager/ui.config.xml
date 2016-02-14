@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+
+
+<Groups>
+
+  <From Name="Self" Uri="http:\\localhost:9081"/>
+
+  <Group Name="First Team">
+     <Address Name="Ivanoff"  Uri="http:\\localhost:9081"/>
+     <Address Name="Petroff"   Uri="http:\\localhost:9081"/>
+     <Address Name="Sidoroff" Uri="http:\\localhost:9081"/>
+   </Group>
+
+
+  <Group Name="Second Team">
+    <Address Name="Ivanoff"  Uri="http:\\localhost:9081"/>
+    <Address Name="Petroff"   Uri="http:\\localhost:9081"/>
+  </Group>
+
+
+</Groups>
